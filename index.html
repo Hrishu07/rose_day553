@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Rose Day Surprise 🌹</title>
+
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        background: radial-gradient(circle, #ffccd5, #ff4d6d);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-family: "Segoe UI", sans-serif;
+        overflow: hidden;
+    }
+
+    h1 {
+        color: #ffffff;
+        margin-bottom: 5px;
+        text-shadow: 0 0 10px #ff99aa;
+    }
+
+    h2 {
+        color: #ffffff;
+        margin-bottom: 20px;
+        font-weight: normal;
+        text-shadow: 0 0 8px #ffb3c1;
+    }
+
+    .rose {
+        position: relative;
+        width: 300px;
+        height: 300px;
+    }
+
+    .petal {
+        position: absolute;
+        width: 120px;
+        height: 160px;
+        background: linear-gradient(to bottom, #ff0033, #cc0022);
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #ffffff;
+        text-align: center;
+        padding: 10px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        transition: transform 0.4s ease;
+        user-select: none;
+    }
+
+    .petal:hover {
+        transform: scale(1.05);
+    }
+
+    /* Falling animation */
+    .fall {
+        animation: fall 1.2s forwards ease-in;
+        pointer-events: none;
+    }
+
+    @keyframes fall {
+        to {
+            transform: translateY(600px) rotate(220deg);
+            opacity: 0;
+        }
+    }
+
+    .p1 { top: 10px; left: 90px; }
+    .p2 { top: 50px; left: 10px; }
+    .p3 { top: 50px; right: 10px; }
+    .p4 { top: 120px; left: 20px; }
+    .p5 { top: 120px; right: 20px; }
+    .p6 { bottom: 20px; left: 90px; }
+
+    .center {
+        position: absolute;
+        top: 110px;
+        left: 110px;
+        width: 80px;
+        height: 80px;
+        background: radial-gradient(circle, #ffcc00, #ff9900);
+        border-radius: 50%;
+        box-shadow: 0 0 15px #ffcc00;
+    }
+
+    .message-box {
+        margin-top: 25px;
+        min-height: 40px;
+        color: #ffffff;
+        font-size: 20px;
+        text-align: center;
+        text-shadow: 0 0 8px #ffb3c1;
+        padding: 0 20px;
+    }
+
+    .final-message {
+        display: none;
+        font-size: 28px;
+        color: #ffffff;
+        text-align: center;
+        margin-top: 25px;
+        animation: glow 1.5s infinite alternate;
+        padding: 0 20px;
+    }
+
+    @keyframes glow {
+        from { text-shadow: 0 0 10px #ffffff; }
+        to { text-shadow: 0 0 25px #ffccd5; }
+    }
+</style>
+</head>
+
+<body>
+
+<h1>🌹 Happy Rose Day 🌹</h1>
+<h2>For my beautiful <span id="name"></span> ❤️</h2>
+
+<div class="rose">
+    <div class="petal p1">Pluck 💌</div>
+    <div class="petal p2">Pluck 💌</div>
+    <div class="petal p3">Pluck 💌</div>
+    <div class="petal p4">Pluck 💌</div>
+    <div class="petal p5">Pluck 💌</div>
+    <div class="petal p6">Pluck 💌</div>
+    <div class="center"></div>
+</div>
+
+<div class="message-box" id="messageBox">
+    Pluck a petal to read my heart 💕
+</div>
+
+<div class="final-message" id="finalMessage">
+    💖 Swagata, you are my today, my tomorrow, and my forever 💖
+</div>
+
+<!-- Background Music -->
+<audio id="music" loop>
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+    const girlfriendName = "Swagata";
+    document.getElementById("name").innerText = girlfriendName;
+
+    const messages = [
+        "Swagata, you make my heart bloom 🌸",
+        "Your smile is my favorite place 😍",
+        "Loving you feels like magic ✨",
+        "With you, life feels complete ❤️",
+        "You are my calm and my chaos 💞",
+        "I choose you — forever 🌹"
+    ];
+
+    const petals = document.querySelectorAll(".petal");
+    const messageBox = document.getElementById("messageBox");
+    const finalMessage = document.getElementById("finalMessage");
+    const music = document.getElementById("music");
+
+    let musicStarted = false;
+
+    petals.forEach((petal, index) => {
+        petal.addEventListener("click", () => {
+
+            if (!musicStarted) {
+                music.play().catch(() => {});
+                musicStarted = true;
+            }
+
+            messageBox.innerText = messages[index];
+            petal.classList.add("fall");
+
+            const remaining = [...petals].filter(p => !p.classList.contains("fall"));
+
+            if (remaining.length === 0) {
+                setTimeout(() => {
+                    finalMessage.style.display = "block";
+                }, 1000);
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
